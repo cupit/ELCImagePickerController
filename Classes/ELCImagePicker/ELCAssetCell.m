@@ -25,11 +25,12 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
-	if (self) {
+    if (self) {
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTapped:)];
         [self addGestureRecognizer:tapRecognizer];
         
         UILongPressGestureRecognizer *longRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongTapped:)];
+        longRecognizer.minimumPressDuration = 0.4;
         [self addGestureRecognizer:longRecognizer];
         
         NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:4];
@@ -37,25 +38,25 @@
         
         NSMutableArray *overlayArray = [[NSMutableArray alloc] initWithCapacity:4];
         self.overlayViewArray = overlayArray;
-	}
-	return self;
+    }
+    return self;
 }
 
 - (void)setAssets:(NSArray *)assets
 {
     self.rowAssets = assets;
-	for (UIImageView *view in _imageViewArray) {
+    for (UIImageView *view in _imageViewArray) {
         [view removeFromSuperview];
-	}
+    }
     for (ELCOverlayImageView *view in _overlayViewArray) {
         [view removeFromSuperview];
-	}
+    }
     //set up a pointer here so we don't keep calling [UIImage imageNamed:] if creating overlays
     UIImage *overlayImage = nil;
     for (int i = 0; i < [_rowAssets count]; ++i) {
-
+        
         ELCAsset *asset = [_rowAssets objectAtIndex:i];
-
+        
         if (i < [_imageViewArray count]) {
             UIImageView *imageView = [_imageViewArray objectAtIndex:i];
             imageView.image = [UIImage imageWithCGImage:asset.asset.thumbnail];
@@ -85,9 +86,9 @@
     CGFloat totalWidth = c * 75 + (c - 1) * 4;
     CGFloat startX = (self.bounds.size.width - totalWidth) / 2;
     
-	CGRect frame = CGRectMake(startX, 2, 75, 75);
-	
-	for (int i = 0; i < [_rowAssets count]; ++i) {
+    CGRect frame = CGRectMake(startX, 2, 75, 75);
+    
+    for (int i = 0; i < [_rowAssets count]; ++i) {
         if (CGRectContainsPoint(frame, point)) {
             ELCAsset *asset = [_rowAssets objectAtIndex:i];
             asset.selected = !asset.selected;
@@ -131,8 +132,9 @@
                 
                 break;
             }
+            
+            frame.origin.x = frame.origin.x + frame.size.width + 4;
         }
-
     }
 }
 
@@ -143,19 +145,19 @@
     CGFloat totalWidth = c * 75 + (c - 1) * 4;
     CGFloat startX = (self.bounds.size.width - totalWidth) / 2;
     
-	CGRect frame = CGRectMake(startX, 2, 75, 75);
-	
-	for (int i = 0; i < [_rowAssets count]; ++i) {
-		UIImageView *imageView = [_imageViewArray objectAtIndex:i];
-		[imageView setFrame:frame];
-		[self addSubview:imageView];
+    CGRect frame = CGRectMake(startX, 2, 75, 75);
+    
+    for (int i = 0; i < [_rowAssets count]; ++i) {
+        UIImageView *imageView = [_imageViewArray objectAtIndex:i];
+        [imageView setFrame:frame];
+        [self addSubview:imageView];
         
         ELCOverlayImageView *overlayView = [_overlayViewArray objectAtIndex:i];
         [overlayView setFrame:frame];
         [self addSubview:overlayView];
-		
-		frame.origin.x = frame.origin.x + frame.size.width + 4;
-	}
+        
+        frame.origin.x = frame.origin.x + frame.size.width + 4;
+    }
 }
 
 
