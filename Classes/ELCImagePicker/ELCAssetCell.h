@@ -8,11 +8,12 @@
 #import <UIKit/UIKit.h>
 
 @class ELCAsset;
+@class ELCAssetCell;
 
 @protocol ELCAssetCellDelegate <NSObject>
 
 @optional
-- (void)longPressForAsset: (ELCAsset*)asset;
+- (void)longPressForAsset: (ELCAsset*)asset cell: (ELCAssetCell*)cell internalIndex: (NSUInteger)internalIndex;
 
 @end
 

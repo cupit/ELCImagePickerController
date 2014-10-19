@@ -125,9 +125,9 @@
             if (CGRectContainsPoint(frame, point)) {
                 ELCAsset *asset = [_rowAssets objectAtIndex:i];
                 
-                if ([self.cellDelegate respondsToSelector: @selector(longPressForAsset:)])
+                if ([self.cellDelegate respondsToSelector: @selector(longPressForAsset:cell:internalIndex:)])
                 {
-                    [self.cellDelegate longPressForAsset: asset];
+                    [self.cellDelegate longPressForAsset: asset cell: self internalIndex: i];
                 }
                 
                 break;

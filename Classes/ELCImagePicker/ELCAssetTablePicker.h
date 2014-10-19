@@ -19,12 +19,14 @@
 @property (nonatomic, strong) IBOutlet UILabel *selectedAssetsLabel;
 @property (nonatomic, assign) BOOL singleSelection;
 @property (nonatomic, assign) BOOL immediateReturn;
+@property (nonatomic, assign, readonly) int columns;
 
 // optional, can be used to filter the assets displayed
 @property(nonatomic, weak) id<ELCAssetPickerFilterDelegate> assetPickerFilterDelegate;
 
 - (int)totalSelectedAssets;
 - (void)preparePhotos;
+- (NSArray *)assetsForIndexPath:(NSIndexPath *)path;
 
 - (void)doneAction:(id)sender;
 
