@@ -29,6 +29,9 @@
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTapped:)];
         [self addGestureRecognizer:tapRecognizer];
         
+        UILongPressGestureRecognizer *longRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellLongTapped:)];
+        [self addGestureRecognizer:longRecognizer];
+        
         NSMutableArray *mutableArray = [[NSMutableArray alloc] initWithCapacity:4];
         self.imageViewArray = mutableArray;
         
@@ -104,6 +107,31 @@
         frame.origin.x = frame.origin.x + frame.size.width + 4;
     }
 }
+
+
+- (void)cellLongTapped:(UITapGestureRecognizer *)tapRecognizer
+{
+    CGPoint point = [tapRecognizer locationInView:self];
+    int c = (int32_t)self.rowAssets.count;
+    CGFloat totalWidth = c * 75 + (c - 1) * 4;
+    CGFloat startX = (self.bounds.size.width - totalWidth) / 2;
+    
+    CGRect frame = CGRectMake(startX, 2, 75, 75);
+    
+    for (int i = 0; i < [_rowAssets count]; ++i) {
+        if (CGRectContainsPoint(frame, point)) {
+            ELCAsset *asset = [_rowAssets objectAtIndex:i];
+            
+            if ([self.cellDelegate respondsToSelector: @selector(longPressForAsset:)])
+            {
+                [self.cellDelegate longPressForAsset: asset];
+            }
+            
+            break;
+        }
+    }
+}
+
 
 - (void)layoutSubviews
 {

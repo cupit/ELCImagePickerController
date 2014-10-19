@@ -7,9 +7,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class ELCAsset;
+
+@protocol ELCAssetCellDelegate <NSObject>
+
+@optional
+- (void)longPressForAsset: (ELCAsset*)asset;
+
+@end
 
 @interface ELCAssetCell : UITableViewCell
 
+@property (nonatomic, weak) id<ELCAssetCellDelegate> cellDelegate;
 - (void)setAssets:(NSArray *)assets;
 
 @end
